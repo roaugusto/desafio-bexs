@@ -87,7 +87,9 @@ export default class Login extends Component {
         const newQuestions = questions.filter(
           (item) => item.answers.length === 0
         );
-        questions = newQuestions;
+        if (newQuestions.length > 0) {
+          questions = newQuestions;
+        }
       }
 
       this.setState({ questions });
@@ -129,6 +131,13 @@ export default class Login extends Component {
       const newQuestions = questions.filter(
         (item) => item.answers.length === 0
       );
+
+      if (newQuestions.length === 0) {
+        alert('Todas as perguntas foram respondidas!');
+        this.setState({ isChecked: false });
+        return;
+      }
+
       questions = newQuestions;
     }
 
@@ -184,69 +193,70 @@ export default class Login extends Component {
             </SubmitButtonStyled>
           </FormStyled>
         </ContainerQuestionStyled>
-        <ContainerAnswerStyled>
-          <h1>Filtros</h1>
 
-          <FormSearchStyled onSubmit={this.handleFilterSubmit}>
-            <div>
-              <input
-                type="text"
-                placeholder="Pesquisar pergunta"
-                value={filter}
-                onChange={this.handleFilterQuestion}
-              />
+        {questions.length > 0 && (
+          <ContainerAnswerStyled>
+            <h1>Filtros</h1>
 
-              <SubmitButtonStyled>
-                <FaSearch color="#fff" size={16} />
-              </SubmitButtonStyled>
-            </div>
-            <CheckStyled>
-              <div className="form-group form-check">
+            <FormSearchStyled onSubmit={this.handleFilterSubmit}>
+              <div>
                 <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="exampleCheck1"
-                  checked={isChecked}
-                  onChange={this.handleCheck}
+                  type="text"
+                  placeholder="Pesquisar pergunta"
+                  value={filter}
+                  onChange={this.handleFilterQuestion}
                 />
-                <button
-                  type="button"
-                  className="mt-1"
-                  style={{ border: 'none', outline: 'none' }}
-                  onClick={this.handleCheck}
-                >
-                  Somente sem respostas
-                </button>
-                <div className="ml-4 mr-2 mt-1">Ordenar:</div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="orderBy"
-                    value="data"
-                    checked={radioDataChecked}
-                    onChange={this.handleRadio}
-                  />
-                  <div className="form-check-label mt-1">Data de Criação</div>
-                </div>
-                <div className="form-check ml-2">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="orderBy"
-                    value="like"
-                    checked={radioLikeChecked}
-                    onChange={this.handleRadio}
-                  />
-                  <div className="form-check-label mt-1">Like</div>
-                </div>
+
+                <SubmitButtonStyled>
+                  <FaSearch color="#fff" size={16} />
+                </SubmitButtonStyled>
               </div>
-            </CheckStyled>
-          </FormSearchStyled>
+              <CheckStyled>
+                <div className="form-group form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="exampleCheck1"
+                    checked={isChecked}
+                    onChange={this.handleCheck}
+                  />
+                  <button
+                    type="button"
+                    className="mt-1"
+                    style={{ border: 'none', outline: 'none' }}
+                    onClick={this.handleCheck}
+                  >
+                    Somente sem respostas
+                  </button>
+                  <div className="ml-4 mr-2 mt-1">Ordenar:</div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="orderBy"
+                      value="data"
+                      checked={radioDataChecked}
+                      onChange={this.handleRadio}
+                    />
+                    <div className="form-check-label mt-1">Data de Criação</div>
+                  </div>
+                  <div className="form-check ml-2">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="orderBy"
+                      value="like"
+                      checked={radioLikeChecked}
+                      onChange={this.handleRadio}
+                    />
+                    <div className="form-check-label mt-1">Like</div>
+                  </div>
+                </div>
+              </CheckStyled>
+            </FormSearchStyled>
 
-          <h1>Lista de Perguntas</h1>
+            <h1>Lista de Perguntas</h1>
 
-          {questions.length > 0 ? (
             <AnswerListStyled>
               {questions.map((item) => (
                 <QuestionComponent
@@ -257,10 +267,8 @@ export default class Login extends Component {
                 />
               ))}
             </AnswerListStyled>
-          ) : (
-            <div> Não há perguntas para serem exibidas!</div>
-          )}
-        </ContainerAnswerStyled>
+          </ContainerAnswerStyled>
+        )}
       </ContainerStyled>
     );
   }
