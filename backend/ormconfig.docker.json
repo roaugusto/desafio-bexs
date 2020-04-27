@@ -1,0 +1,20 @@
+[
+  {
+    "name": "default",
+    "type": "postgres",
+    "host": "postgres-bexs",
+    "port": 5432,
+    "username": "bexs",
+    "password": "bexs",
+    "database": "bexs",
+    "entities": [
+      "./src/models/*.ts"
+    ],
+    "migrations": [
+      "./src/database/migrations/*.ts"
+    ],
+    "cli": {
+      "migrationsDir": "./src/database/migrations"
+    }
+  }
+]

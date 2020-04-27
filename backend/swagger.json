@@ -1,0 +1,295 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API Bexs",
+    "description": "API desenvolvido para o desafio de perguntas e respostas Bexs",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Rodrigo Santos - ro.augusto@gmail.com"
+    }
+  },
+  "host": "localhost:3333",
+  "basePath": "",
+  "schema": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "Questions",
+      "description": "API responsavel pelas perguntas"
+    },
+    {
+      "name": "Answers",
+      "description": "API responsavel pelas respostas"
+    }
+  ],
+  "paths": {
+    "/questions": {
+      "get": {
+        "tags": [
+          "Questions"
+        ],
+        "summary": "Obter todas as perguntas do sistema",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Question"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Questions"
+        ],
+        "summary": "Criar uma nova pergunta no sistema",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "text",
+            "description": "Parametros para a criação da pergunta",
+            "schema": {
+              "$ref": "#/definitions/QuestionRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Question"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad request"
+          }
+        }
+      }
+    },
+    "/questions/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description":"Id da pergunta",
+          "type": "string",
+          "format": "uuid"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Questions"
+        ],
+        "summary": "Obter uma pergunta específica do sistema",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Question"
+            }
+          }
+        }
+      }
+    },
+    "/questions/{id}/like": {
+      "post": {
+        "tags": [
+          "Questions"
+        ],
+        "summary": "Adiciona um like na pergunta",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description":"Id da pergunta",
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Question"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad request"
+          }
+        }
+      }
+    },
+    "/answers": {
+      "post": {
+        "tags": [
+          "Answers"
+        ],
+        "summary": "Criar uma nova resposta no sistema",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "text",
+            "description": "Parametros para a criação da resposta",
+            "schema": {
+              "$ref": "#/definitions/AnswerRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Answer"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad request"
+          }
+        }
+      }
+    },
+    "/answers/{id}/like": {
+      "post": {
+        "tags": [
+          "Answers"
+        ],
+        "summary": "Adiciona um like na resposta",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description":"Id da resposta",
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Answer"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Question": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "text": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "likes": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Answer"
+          }
+        }
+      }
+    },
+    "Answer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "text": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "likes": {
+          "type": "integer"
+        },
+        "questionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "QuestionRequest": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        }
+      }
+    },
+    "AnswerRequest": {
+      "type": "object",
+      "properties": {
+        "questionId": {
+          "type": "string",
+          "format":"uuid"
+        },
+        "text": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        }
+      }
+    }
+
+  }
+}

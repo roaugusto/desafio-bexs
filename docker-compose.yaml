@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+
+  api-bexs:
+    container_name: api-bexs
+    build: './backend'
+    volumes:
+      - ./backend:/home/node/api
+      - ./backend/ormconfig.docker.json:/home/node/api/ormconfig.json
+      - /home/node/api/node_modules
+    depends_on:
+      - postgres-bexs
+    networks:
+      - app-connect
+    links:
+      - postgres-bexs
+    ports:
+      - '3333:3333'
+
+  postgres-bexs:
+    container_name: postgres-bexs
+    image: postgres:12
+    restart: unless-stopped
+    volumes:
+      - postgres-bexs-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    networks:
+      - app-connect
+
+  web-bexs:
+    container_name: web-bexs
+    build: './frontend'
+    stdin_open: true
+    # tty: true
+    volumes:
+        - './frontend:/app'
+        - '/app/node_modules'
+    ports:
+        - '3000:3000'
+    depends_on:
+        - postgres-bexs
+        - api-bexs
+    environment:
+        - REACT_APP_BASE_URL=http://localhost:3333
+
+volumes:
+  postgres-bexs-data:
+
+networks:
+  app-connect:
+      driver: bridge

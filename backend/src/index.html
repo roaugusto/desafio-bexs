@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste socket</title>
+</head>
+<body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+  
+  <script type="text/javascript">
+    var socket = io('http://localhost:3333')
+
+    socket.on('question', function(data){
+      console.log(data)
+    })
+
+  </script>
+
+</body>
+</html>
