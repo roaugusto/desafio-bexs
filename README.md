@@ -48,6 +48,9 @@ yarn test
 ```
 yarn start
 ```
+Após o start, acessar o sistema em:
+
+[http://localhost:3000](http://localhost:3000)
 
 ## Contribuições
 Contribuições são bem vindas. Qualquer dúvida, entre em contato.
