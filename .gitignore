@@ -28,3 +28,4 @@
 # backend
 
 /backend/node_modules
+/backend/coverage
