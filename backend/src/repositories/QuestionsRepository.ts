@@ -32,7 +32,7 @@ class QuestionsRepository extends Repository<Question> {
     if (!question) return null;
 
     question.likes += 1;
-    this.update(id, { likes: question.likes });
+    await this.update(id, { likes: question.likes });
 
     return question;
   }

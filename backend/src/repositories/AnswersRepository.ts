@@ -11,7 +11,7 @@ class AnswersRepository extends Repository<Answer> {
     if (!answer) return null;
 
     answer.likes += 1;
-    this.update(id, { likes: answer.likes });
+    await this.update(id, { likes: answer.likes });
 
     return answer;
   }
