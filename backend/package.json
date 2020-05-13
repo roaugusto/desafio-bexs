@@ -5,10 +5,10 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev:server": "NODE_ENV=dev ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/server.ts",
+    "dev:server": "set NODE_ENV=dev && ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "pretest": "NODE_ENV=test yarn typeorm migration:revert -c test && yarn typeorm migration:revert -c test && yarn typeorm migration:run -c test",
-    "test": "NODE_ENV=test jest"
+    "pretest": "set NODE_ENV=test && yarn typeorm migration:revert -c test && yarn typeorm migration:revert -c test && yarn typeorm migration:run -c test",
+    "test": "set NODE_ENV=test && jest"
   },
   "dependencies": {
     "@types/cors": "^2.8.6",
