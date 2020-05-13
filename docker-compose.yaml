@@ -23,6 +23,7 @@ services:
     image: postgres:12
     restart: unless-stopped
     volumes:
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/db.sql 
       - postgres-bexs-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
