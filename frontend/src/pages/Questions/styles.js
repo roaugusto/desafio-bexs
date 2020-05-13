@@ -41,7 +41,10 @@ export const FormStyled = styled.form`
 `;
 
 export const FormSearchStyled = styled.form`
-  margin-bottom: 30px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #eee;
+  padding: 10px;
 
   div {
     display: flex;
@@ -50,9 +53,9 @@ export const FormSearchStyled = styled.form`
     input {
       flex: 1;
       border: 1px solid #eee;
-      padding: 10px 15px;
+      padding: 5px;
       border-radius: 4px;
-      font-size: 16px;
+      font-size: 12px;
     }
   }
 `;
@@ -100,4 +103,21 @@ export const ContainerAnswerStyled = styled.div`
       margin-left: 5px;
     }
   }
+`;
+
+export const WrapperButtonStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const ButtonFilterStyled = styled.button.attrs({
+  type: 'button',
+})`
+  background: #4bde95;
+  color: #fff;
+  border: 0;
+  padding: 0 15px;
+  border-radius: 4px;
+  outline: none !important;
 `;

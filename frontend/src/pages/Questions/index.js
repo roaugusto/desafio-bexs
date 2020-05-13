@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Collapse from '@kunukn/react-collapse';
+
 import { FaQuestionCircle, FaPlus, FaSearch } from 'react-icons/fa';
 import socket from 'socket.io-client';
 
@@ -11,6 +13,8 @@ import {
   ContainerAnswerStyled,
   FormSearchStyled,
   CheckStyled,
+  WrapperButtonStyled,
+  ButtonFilterStyled
 } from './styles';
 
 import QuestionComponent from '../../components/QuestionComponent';
@@ -27,6 +31,8 @@ export default class Login extends Component {
     radioLikeChecked: false,
     orderByQuestion: '',
     orderByAnswer: '',
+    isOpen: false,
+    showButton: true,
   };
 
   componentDidMount = async () => {
@@ -161,15 +167,83 @@ export default class Login extends Component {
     });
   };
 
+  toggle = () => {
+    const { isOpen, showButton } = this.state;
+    this.setState({ isOpen: !isOpen, showButton: !showButton });
+  };
+
+  showFilters = () => {
+    const { filter, isChecked, radioDataChecked, radioLikeChecked, } = this.state;
+
+    return (
+      <>
+        <FormSearchStyled onSubmit={this.handleFilterSubmit}>
+          <div>
+            <input
+              type="text"
+              placeholder="Filtrar pergunta"
+              value={filter}
+              onChange={this.handleFilterQuestion}
+            />
+
+            <SubmitButtonStyled>
+              <FaSearch color="#fff" size={16} />
+            </SubmitButtonStyled>
+          </div>
+          <CheckStyled>
+            <div className="form-group form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="exampleCheck1"
+                checked={isChecked}
+                onChange={this.handleCheck}
+              />
+              <button
+                type="button"
+                className="mt-1"
+                style={{ border: 'none', outline: 'none' }}
+                onClick={this.handleCheck}
+              >
+                Somente sem respostas
+              </button>
+              <div className="ml-4 mr-2 mt-1">Ordenar:</div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="orderBy"
+                  value="data"
+                  checked={radioDataChecked}
+                  onChange={this.handleRadio}
+                />
+                <div className="form-check-label mt-1">Data de Criação</div>
+              </div>
+              <div className="form-check ml-2">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="orderBy"
+                  value="like"
+                  checked={radioLikeChecked}
+                  onChange={this.handleRadio}
+                />
+                <div className="form-check-label mt-1">Like</div>
+              </div>
+            </div>
+          </CheckStyled>
+        </FormSearchStyled>
+      </>
+    );
+  };
+
+
   render() {
     const {
       username,
       question,
       questions,
-      filter,
-      isChecked,
-      radioDataChecked,
-      radioLikeChecked,
+      isOpen
     } = this.state;
 
     return (
@@ -196,64 +270,21 @@ export default class Login extends Component {
 
         {questions.length > 0 && (
           <ContainerAnswerStyled>
-            <h1>Filtros</h1>
 
-            <FormSearchStyled onSubmit={this.handleFilterSubmit}>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Pesquisar pergunta"
-                  value={filter}
-                  onChange={this.handleFilterQuestion}
-                />
+            <WrapperButtonStyled>
+              <div />
+              <ButtonFilterStyled type="button" onClick={this.toggle}>
+                Filtros
+              </ButtonFilterStyled>
+            </WrapperButtonStyled>
 
-                <SubmitButtonStyled>
-                  <FaSearch color="#fff" size={16} />
-                </SubmitButtonStyled>
-              </div>
-              <CheckStyled>
-                <div className="form-group form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="exampleCheck1"
-                    checked={isChecked}
-                    onChange={this.handleCheck}
-                  />
-                  <button
-                    type="button"
-                    className="mt-1"
-                    style={{ border: 'none', outline: 'none' }}
-                    onClick={this.handleCheck}
-                  >
-                    Somente sem respostas
-                  </button>
-                  <div className="ml-4 mr-2 mt-1">Ordenar:</div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="orderBy"
-                      value="data"
-                      checked={radioDataChecked}
-                      onChange={this.handleRadio}
-                    />
-                    <div className="form-check-label mt-1">Data de Criação</div>
-                  </div>
-                  <div className="form-check ml-2">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="orderBy"
-                      value="like"
-                      checked={radioLikeChecked}
-                      onChange={this.handleRadio}
-                    />
-                    <div className="form-check-label mt-1">Like</div>
-                  </div>
-                </div>
-              </CheckStyled>
-            </FormSearchStyled>
+            <Collapse
+              isOpen={isOpen}
+              transition="height 300ms cubic-bezier(0.4, 0, 0.2, 1)"
+              aria-hidden={isOpen ? 'false' : 'true'}
+              elementType="article"
+              render={this.showFilters}
+            />
 
             <h1>Lista de Perguntas</h1>
 
