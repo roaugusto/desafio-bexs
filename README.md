@@ -10,6 +10,7 @@ Desenvolver uma aplicação de perguntas e respostas.
 - Frontend - Utilizado ReactJS com Javascript.
 - Banco de Dados - Postgres.
 
+- Websocket para respostas em tempo real.
 - Eslint e Prettier para padronização do código.
 - Typeorm para a o mapeamento de objetos.
 - Jest para os testes da API.
